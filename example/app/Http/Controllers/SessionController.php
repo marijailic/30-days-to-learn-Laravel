@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\SessionStoreRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -13,12 +13,12 @@ class SessionController extends Controller
         return view('auth.login');
     }
 
-    public function store()
+    public function store(SessionStoreRequest $request)
     {
-        $attributes = request()->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
+        $attributes = [
+            'email' => $request->validated('email'),
+            'password' => $request->validated('password'),
+        ];
 
         if(!Auth::attempt($attributes)){
             throw ValidationException::withMessages([
