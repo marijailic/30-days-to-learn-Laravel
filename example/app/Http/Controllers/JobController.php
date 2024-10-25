@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\JobStoreRequest;
 use App\Mail\JobPosted;
 use App\Models\Job;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class JobController extends Controller

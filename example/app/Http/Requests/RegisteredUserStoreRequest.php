@@ -12,7 +12,7 @@ class RegisteredUserStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,6 +27,7 @@ class RegisteredUserStoreRequest extends FormRequest
             'last_name' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required', Password::min(6), 'confirmed'],
+            'name' => ['required'],
         ];
     }
 }

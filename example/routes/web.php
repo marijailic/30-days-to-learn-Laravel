@@ -19,28 +19,35 @@ Route::view('/contact', 'contact');
 
 //Route::resource('jobs', JobController::class);
 
-Route::controller(JobController::class)->group(static function () {
-    Route::get('/jobs','index');
-    Route::get('/jobs/create','create');
-    Route::post('/jobs','store')->middleware('auth');
-    Route::get('/jobs/{job}','show');
+Route::controller(JobController::class)->prefix('jobs')->group(static function () {
+    Route::middleware('auth')->group(static function () {
+        Route::get('create','create');
+        Route::post('','store');
 
-    Route::get('/jobs/{job}/edit','edit')
-        ->middleware('auth')
-        ->can('edit', 'job');
+        Route::get('{job}/edit','edit')
+            ->can('edit', 'job');
 
-    Route::patch('/jobs/{job}','update');
-    Route::delete('/jobs/{job}','destroy');
+        Route::patch('{job}','update');
+        Route::delete('{job}','destroy');
+    });
+
+    Route::get('','index');
+    Route::get('{job}','show');
 });
 
 
-Route::controller(RegisteredUserController::class)->group(static function () {
-    Route::get('/register','create');
-    Route::post('/register','store');
+Route::controller(RegisteredUserController::class)->prefix('register')
+    ->middleware('guest')
+    ->group(static function () {
+        Route::get('','create');
+        Route::post('','store');
 });
 
 Route::controller(SessionController::class)->group(static function () {
-    Route::get('/login','create')->name('login');
-    Route::post('/login','store');
-    Route::post('/logout','destroy');
+    Route::prefix('login')->group(static function () {
+        Route::get('','create')->name('login');
+        Route::post('','store');
+    });
+
+    Route::post('/logout','destroy')->middleware('auth');
 });
