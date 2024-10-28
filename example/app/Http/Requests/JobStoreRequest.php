@@ -14,8 +14,8 @@ class JobStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'min:3'],
-            'salary' => ['required'], // TODO: tipovi, ograničenja...
+            'title' => ['required', 'string', 'min:3', 'max:255'],
+            'salary' => ['required', 'string', 'min:3', 'max:255'],
         ];
     }
 }

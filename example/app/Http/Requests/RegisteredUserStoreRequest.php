@@ -23,11 +23,11 @@ class RegisteredUserStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => ['required'],
-            'last_name' => ['required'],
+            'first_name' => ['required', 'string', 'max:15'],
+            'last_name' => ['required', 'string', 'max:30'],
             'email' => ['required', 'email'],
             'password' => ['required', Password::min(6), 'confirmed'],
-            'name' => ['required'],
+            'name' => ['required', 'string', 'min:3', 'max:50'],
         ];
     }
 }
